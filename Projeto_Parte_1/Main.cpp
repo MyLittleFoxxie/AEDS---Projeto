@@ -13,6 +13,7 @@ Data:19/03/21
 void procurarPadrao(int* elementosLista, int tamanho)
 {
     int padrao = 0;
+    int resultado;
 
     for (int i = 0; i < tamanho; i++)
     {
@@ -81,6 +82,7 @@ void procurarPadrao(int* elementosLista, int tamanho)
                 {
                 case 1:
                     padrao++;
+                    resultado = 1;
                     break;
 
                 default:
@@ -95,9 +97,9 @@ void procurarPadrao(int* elementosLista, int tamanho)
         } 
     }   
     
-    switch (padrao)
+    switch (resultado)
     {
-    case 4:
+    case 1:
         printf("Resultado: Padrao encontrado.\n");
         break;
     
