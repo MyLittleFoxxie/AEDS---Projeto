@@ -16,92 +16,93 @@ void procurarPadrao(int* elementosLista, int tamanho)
 
     for (int i = 0; i < tamanho; i++)
     {
+        //Um case para cada etapa do padrão
         switch (padrao)
         {
-        //Procura o primeiro item do padrao: 1
-        case '0':
-            switch (elementosLista[i])
-            {
-            case '1':
-                padrao++;
+            //Procura o primeiro item do padrao: 1
+            case 0:
+                switch (elementosLista[i])
+                {
+                case 1:
+                    padrao++;
+                    break;
+
+                default:
+                    padrao = 0;
+                    break;
+                }
                 break;
+
+            //Procura o segundo item do padrao: 3
+            case 1:
+                switch (elementosLista[i])
+                {
+                case 3:
+                    padrao++;
+                    break;
+
+                default:
+                    padrao = 0;
+                    break;
+                }
+                break;
+
+            //Procura o terceiro item do padrao: 2
+            case 2:
+                switch (elementosLista[i])
+                {
+                case 2:
+                    padrao++;
+                    break;
+
+                default:
+                    padrao = 0;
+                    break;
+                }
+                break;
+
+            //Procura o quarto item do padrao: 3
+            case 3:
+                switch (elementosLista[i])
+                {
+                case 3:
+                    padrao++;
+                    break;
+
+                default:
+                    padrao = 0;
+                    break;
+                }
+                break;
+
+            //Procura o quinto item do padrao: 1
+            case 4:
+                switch (elementosLista[i])
+                {
+                case 1:
+                    padrao++;
+                    break;
+
+                default:
+                    padrao = 0;
+                    break;
+                }
+                break; 
 
             default:
                 padrao = 0;
                 break;
-            }
-            break;
-
-        //Procura o segundo item do padrao: 3
-        case '1':
-            switch (elementosLista[i])
-            {
-            case '3':
-                padrao++;
-                break;
-
-            default:
-                padrao = 0;
-                break;
-            }
-            break;
-
-        //Procura o terceiro item do padrao: 2
-        case '2':
-            switch (elementosLista[i])
-            {
-            case '2':
-                padrao++;
-                break;
-
-            default:
-                padrao = 0;
-                break;
-            }
-            break;
-
-        //Procura o quarto item do padrao: 3
-        case '3':
-            switch (elementosLista[i])
-            {
-            case '3':
-                padrao++;
-                break;
-
-            default:
-                padrao = 0;
-                break;
-            }
-            break;
-
-        //Procura o quinto item do padrao: 1
-        case '4':
-            switch (elementosLista[i])
-            {
-            case '1':
-                padrao++;
-                break;
-
-            default:
-                padrao = 0;
-                break;
-            }
-            break; 
-
-        default:
-            padrao = 0;
-            break;
         } 
-    }
+    }   
     
     switch (padrao)
     {
-    case '4':
-        printf("\nResultado: Padrao encontrado.\n");
+    case 4:
+        printf("Resultado: Padrao encontrado.\n");
         break;
     
     default:
-        printf("\nResultado: Padrao nao encontrado.\n");
+        printf("Resultado: Padrao nao encontrado.\n");
         break;
     }
 }
