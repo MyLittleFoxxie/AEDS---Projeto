@@ -2,7 +2,7 @@
 
 LAED1 - Projeto Parte 1
 
-Alunos(as):Vitor Brandão Raposo e Gabriel Bernalle
+Alunos(as): Vitor Brandão Raposo e Gabriel Bernalle
 
 Data:19/03/21
 
@@ -13,7 +13,7 @@ Data:19/03/21
 void procurarPadrao(int* elementosLista, int tamanho)
 {
     int padrao = 0;
-    int resultado;
+    int resultado= 0;
 
     for (int i = 0; i < tamanho; i++)
     {
@@ -82,7 +82,7 @@ void procurarPadrao(int* elementosLista, int tamanho)
                 {
                 case 1:
                     padrao++;
-                    resultado = 1;
+                    resultado++;
                     break;
 
                 default:
@@ -97,15 +97,13 @@ void procurarPadrao(int* elementosLista, int tamanho)
         } 
     }   
     
-    switch (resultado)
+    if (resultado >= 1)
     {
-    case 1:
         printf("Resultado: Padrao encontrado.\n");
-        break;
-    
-    default:
+    }
+    else
+    {
         printf("Resultado: Padrao nao encontrado.\n");
-        break;
     }
 }
 
