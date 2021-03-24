@@ -36,20 +36,17 @@ void procurarPadrao(int* elementosLista, int qtdItens)
 
             else
                 padrao = 0;
-                
+
             break;
         }
         
     }
     
     if (resultado == 1)
-    {
         printf("Resultado: Padrao de faixa de pedestres encontrado.\n");
-    } 
+
     else
-    {
-        printf("Resultado: Padrao de faixa de pedestres nao encontrado.\n");
-    }
+        printf("Resultado: Padrao de faixa de pedestres nao encontrado.\n");       
 }
 
 
