@@ -13,37 +13,30 @@ void procurarPadrao(int* elementosLista, int qtdItens)
 
     for (int i = 0; i < qtdItens; i++)
     {
-        if (padrao == 13)
-        {
+        if (padrao == 12)
             resultado = 1;
-        }
         
         switch (padrao)
         {
         case 0:
             if (elementosLista[i] == 1)
-            {
                 padrao++;
-            }
+
             else
-            {
                 padrao = 0;
-            }
+
             break;
         
         default:
             if (elementosLista[i] == 1 && elementosLista[i - 1] == 3)
-            {
                 padrao++;
-            }
+
             else if (elementosLista[i] == 3 && elementosLista[i - 1] == 1)
-            {
                 padrao++;
-            }
+
             else
-            {
                 padrao = 0;
-            }
+                
             break;
         }
         
