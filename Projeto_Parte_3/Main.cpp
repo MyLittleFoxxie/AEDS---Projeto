@@ -1,18 +1,188 @@
 /****************
-LAED1 - Projeto Parte 2
+LAED1 - Projeto Parte 3
 Alunos(as): Vitor Brandão Raposo e Gabriel Bernalle
-Data: 26/03/21
-
+Data: 08/04/21
 ****************/
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/time.h>
+#define qtdLinhas 10
+
+/* ========================================================================= */
+
+typedef int TipoChave;
+
+typedef struct {
+  int Chave;
+  const char* Resultado;
+  /* outros componentes */
+} TipoItem;
+
+typedef struct TipoCelula *TipoApontador;
+
+typedef struct TipoCelula {
+  TipoItem Item;
+  TipoApontador Prox;
+} TipoCelula;
+
+typedef struct {
+  TipoApontador Primeiro, Ultimo;
+} TipoLista;
+
+/* ========================================================================= */
+
+void FLVazia(TipoLista *Lista)
+{ Lista -> Primeiro = (TipoApontador) malloc(sizeof(TipoCelula));
+  Lista -> Ultimo = Lista -> Primeiro;
+  Lista -> Primeiro -> Prox = NULL;
+}
+
+int Vazia(TipoLista Lista)
+{ return (Lista.Primeiro == Lista.Ultimo);
+}
+
+void Insere(TipoItem x, TipoLista *Lista)
+{ Lista -> Ultimo -> Prox = (TipoApontador) malloc(sizeof(TipoCelula));
+  Lista -> Ultimo = Lista -> Ultimo -> Prox;
+  Lista -> Ultimo -> Item = x;
+  Lista -> Ultimo -> Prox = NULL;
+}
+
+void Retira(TipoApontador p, TipoLista *Lista, TipoItem *Item)
+{ /*  ---   Obs.: o item a ser retirado e  o seguinte ao apontado por  p --- */
+  TipoApontador q;
+  if (Vazia(*Lista) || p == NULL || p -> Prox == NULL) 
+  { printf(" Erro   Lista vazia ou posi  c   a o n  a o existe\n");
+    return;
+  }
+  q = p -> Prox;
+  *Item = q -> Item;
+  p -> Prox = q -> Prox;
+  if (p -> Prox == NULL) Lista -> Ultimo = p;
+  free(q);
+}
+
+void Imprime(TipoLista Lista)
+{ TipoApontador Aux;
+  Aux = Lista.Primeiro -> Prox;
+  while (Aux != NULL) 
+    { printf("%d\n", Aux -> Item.Chave);
+      Aux = Aux -> Prox;
+    }
+}
+
+/* ========================================================================== */
+
 
 //Estamos buscando a sequência “1 3 1 3 1 3 1 3 1 3 1 3 1" nessa ordem
-bool procurarPadrao(int* elementosLista, int qtdItens)
+const char* procurarPadrao(int* elementosLista, int qtdItens)
 {
     int padrao = 0, resultado = 0;
 
+    for (int i = 0; i < qtdItens; i++)
+    {
+        //Encontra uma pista
+        switch (padrao)
+        {
+            //Procura o primeiro item do padrao: 1
+            case 0:
+                switch (elementosLista[i])
+                {
+                    case 1:
+                        padrao = 1;
+                        break;
+
+                    default:
+                        padrao = 0;
+                        break;
+                }
+                break;
+
+            //Procura o segundo item do padrao: 3
+            case 1:
+                switch (elementosLista[i])
+                {
+                    case 3:
+                        padrao = 2;
+                        break;
+
+                    case 1:
+                        padrao = 1;
+                        break;
+
+                    default:
+                        padrao = 0;
+                        break;
+                }
+                break;
+
+            //Procura o terceiro item do padrao: 2
+            case 2:
+                switch (elementosLista[i])
+                {
+                    case 2:
+                        padrao = 3;
+                        break;
+
+                    case 1:
+                        padrao = 1;
+                        break;
+
+                    default:
+                        padrao = 0;
+                        break;
+                }
+                break;
+
+            //Procura o quarto item do padrao: 3
+            case 3:
+                switch (elementosLista[i])
+                {
+                    case 3:
+                        padrao = 4;
+                        break;
+
+                    case 1:
+                        padrao = 1;
+                        break;
+
+                    default:
+                        padrao = 0;
+                        break;
+                }
+                break;
+
+            //Procura o quinto item do padrao: 1
+            case 4:
+                switch (elementosLista[i])
+                {
+                    case 1:
+                        padrao = 5;
+                        resultado = 1;
+                        break;
+
+                    default:
+                        padrao = 0;
+                        break;
+                }
+                break; 
+
+            default:
+                padrao = 0;
+                break;
+        } 
+    }
+
+    if (resultado == 1)
+    {
+    	const char *padrao = "Pista normal";
+		return padrao;
+	}   
+
+    padrao = 0;
+    resultado = 0;
+
+    //Encontra uma faixa de pedestres
     for (int i = 0; i < qtdItens; i++)
     {
         if (padrao == 12)
@@ -43,17 +213,21 @@ bool procurarPadrao(int* elementosLista, int qtdItens)
         }
     }
     
-    if (resultado == 1){
-    	printf("Resultado: Pista com faixa de pedestres\n");
-		return true;
+    if (resultado == 1)
+    {
+    	const char *padrao = "Faixa de pedestres";
+		return padrao;
 	}
-    else{
-		return false;
+
+    else
+    {
+        const char *padrao = "Padrao nao identificado";
+		return padrao;
 	}      
 }
 
 
-bool mapeiaPadrao(int* elementosLista, int qtdItens)
+const char* mapeiaPadrao(int* elementosLista, int qtdItens)
 {
 	int listaFinal[qtdItens];
 
@@ -63,13 +237,12 @@ bool mapeiaPadrao(int* elementosLista, int qtdItens)
 		if(elementosLista[i] == 255) listaFinal[i] = 3; 
 	}
 
-	bool padrao = procurarPadrao(listaFinal, qtdItens);
-	if (padrao == true) return true;
-	else return false;
+	const char *padrao = procurarPadrao(listaFinal, qtdItens);
+	return padrao;
 }
 
 
-bool reduzPadrao(int* elementosLista, int qtdItens)
+const char* reduzPadrao(int* elementosLista, int qtdItens)
 {
 	int *auxList;
 	auxList = (int*) malloc(qtdItens * sizeof (int));
@@ -87,21 +260,22 @@ bool reduzPadrao(int* elementosLista, int qtdItens)
 	
     qtdItens = j + 1;
 
-	bool padrao = mapeiaPadrao(auxList, qtdItens);
-
-	if(padrao == true) return true;
-	else return false;
+    const char *padrao = mapeiaPadrao(auxList, qtdItens);
+	return padrao;
 }
 
 
 int main () 
 {
-//	struct timeval t;
-
+    TipoLista lista;
+    TipoItem item;
+    float  tamanho = 0;
+    FLVazia(&lista);
     FILE *arquivo;
     char nomeArquivo[100];
     int qtdlinhas;
 	int qtdItens;
+    int resultado = 0;
 
 	printf("Digite o nome do arquivo: ");
 	  scanf("%s", nomeArquivo);
@@ -112,22 +286,55 @@ int main ()
         exit(1);
     }
 
-	bool padrao;
+	const char* padrao;
     //Escaneia a quantidade de itens
 	fscanf(arquivo, "%d", &qtdlinhas);
 
-	for(int i = 0; i < qtdlinhas; i++){
+	for(int contador1 = 0; contador1 < qtdlinhas; contador1++)
+    {
 		// Escaneia a quantidade de Linhas
     	fscanf(arquivo, "%d", &qtdItens);
 		int elementosLista[qtdItens];
 
     	//Escaneia cada elemento e insere no vetor
-	  	for (int j = 0; j < qtdItens; j++) fscanf(arquivo, "%d", &elementosLista[j]);
+	  	for (int contador2 = 0; contador2 < qtdItens; contador2++)
+        {
+            fscanf(arquivo, "%d", &elementosLista[contador2]);
+        } 
 
-	  		padrao = reduzPadrao(elementosLista,qtdItens);
-		if(padrao == true) break;
+        /*Insere cada chave e resultado na lista */
+	  	padrao = reduzPadrao(elementosLista,qtdItens);
+        item.Chave = contador1;
+        item.Resultado = padrao;
+        Insere(item, &lista);
+        tamanho++;
 	}
-	if(padrao == false) printf("Resultado: Pista sem faixa de pedestres\n");
+	
+    const char* faixa;
+    faixa = "Faixa de pedestres";
+    TipoApontador Aux;
+    
+    Aux = lista.Primeiro -> Prox;
+
+    while (Aux != NULL) 
+    { 
+        if (Aux -> Item.Resultado == faixa)
+        {
+            resultado = 1;
+            break;
+        }
+        
+        Aux = Aux -> Prox;
+    }
+
+    if (resultado == 1)
+    {
+        printf("Resultado: Pista com faixa de pedestres\n");
+    }
+    else
+    {
+        printf("Resultado: Pista sem faixa de pedestres\n");
+    }
 
     fclose(arquivo);
 	
